@@ -1,0 +1,6 @@
+#!/bin/sh
+
+emacsclient -e "(with-current-buffer (find-file-noselect \"$1\")
+                    (font-lock-fontify-buffer)
+                    (with-current-buffer (htmlize-buffer)
+	                (write-file \"$2\")))" -a '' >/dev/null
