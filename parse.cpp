@@ -346,11 +346,6 @@ void highlight(highlighted_text &text, const std::vector<target_region>& regions
         std::string highlight_name = new_highlight(base, text);
 
         for (int i = find_index(text, region.from); i <= find_index(text, region.to); ++ i) {
-            if (i == 0) {
-                std::cerr << "!" << text.annotated_symbols[i].symbol;
-                std::cerr << "\n";;
-            }
-
             annotated_symbol &current = text.annotated_symbols[i];
 
             std::set<std::string> classes = text.class_names[current.classes];
@@ -363,7 +358,7 @@ void highlight(highlighted_text &text, const std::vector<target_region>& regions
 
             intersect.insert(highlight_name); // Add new highlight
 
-            if (intersect.size() == 0)
+            if (intersect.size() == 1)
                 classes.insert(highlight_name);
             else {
                 classes.erase(*intersect.begin());
@@ -390,5 +385,6 @@ int main(int argc, char *argv[]) {
     highlighted_text text = extract_highlighted_text(filename);
 
     highlight(text, parse_target_regions(read_stdin()));
+
     std::cout << html_reconstruct(text);
 }
